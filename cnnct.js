@@ -34,7 +34,16 @@ module.exports.finderrors=function(q,Callback){
 	})
 	
 }
+module.exports.getAllErrors=function(Callback){
+	connection.query("select * from errors",function(err,data)
+	{if (err)
+		console.log(err)
+	else
+		Callback(err,data)
 
+	})
+	
+}
 module.exports.getAllApplications=function(Callback){
 	connection.query("select * from app",function(err,data)
 	{if (err)
