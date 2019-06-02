@@ -20,6 +20,18 @@ app.get('/',function(req,res)
 
 });
 
+app.get('/app',function(req,res)
+{
+    
+    con.getAllApplications(function(err,result)
+        {
+            res.json({success: 1,
+                result: result
+        })
+        });
+
+});
+
 app.post('/',function(req,res)
 {
     var q1=req.body.app_id;

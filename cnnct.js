@@ -22,12 +22,25 @@ module.exports.finderrors=function(q,Callback){
 	connection.query(`select * from app_feature_error JOIN errors on errors.id=app_feature_error.errors_id where app_feature_error.id='${q}'`,function(err,data)
 	{if (err)
 		console.log(err)
-	else
-		layer2.modify(data,function(data1)
-		{		
-				Callback(err,data1)
+	else{
+		//layer2.modify(data,function(data1)
+		//{		
+		//		Callback(err,data1)
 			
-		})
+		//})
+		Callback(err,data);
+	}
+
+	})
+	
+}
+
+module.exports.getAllApplications=function(Callback){
+	connection.query("select * from app",function(err,data)
+	{if (err)
+		console.log(err)
+	else
+		Callback(err,data)
 
 	})
 	
