@@ -32,6 +32,17 @@ app.get('/app',function(req,res)
 
 });
 
+app.get('/appfeature',function(req,res)
+{
+	var q=req.query.app_id;    
+    con.getAppFeature(q,function(err,result)
+        {
+            res.json({success: 1,
+                result: result
+        })
+        });
+
+});
 app.get('/errors',function(req,res)
 {
     
@@ -46,8 +57,8 @@ app.get('/errors',function(req,res)
 
 app.get('/resolvederrors',function(req,res)
 {
-    
-    con.getResolvedErrors(function(err,result)
+   var q=req.query.app_feature_id; 
+    con.getResolvedErrors(q,function(err,result)
         {
             res.json({success: 1,
                 result: result
@@ -57,8 +68,10 @@ app.get('/resolvederrors',function(req,res)
 });
 app.get('/unresolvederrors',function(req,res)
 {
+    var q=req.query.app_feature_id;
     
-    con.getUnresolvedErrors(function(err,result)
+    
+    con.getUnresolvedErrors(q,function(err,result)
         {
             res.json({success: 1,
                 result: result

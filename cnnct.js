@@ -57,8 +57,8 @@ module.exports.getAllErrors=function(Callback){
 	
 }
 
-module.exports.getResolvedErrors=function(Callback){
-	connection.query("select * from errors where status='RESOLVED'",function(err,data)
+module.exports.getResolvedErrors=function(q,Callback){
+	connection.query(`select * from app_feature_error join errors where app_feature_error.errors_id=errors.id AND app_feature_error.app_feature_id='${q}'AND app_feature_error.status='RESOLVED'`,function(err,data)
 	{if (err)
 		console.log(err)
 	else
@@ -69,7 +69,7 @@ module.exports.getResolvedErrors=function(Callback){
 }
 
 module.exports.getUnresolvedErrors=function(Callback){
-	connection.query("select * from errors where status='UNRESOLVED'",function(err,data)
+	connection.query(`select * from app_feature_error join errors where app_feature_error.error_id=errors.id AND app_feature_error.app_feature_id='${q}'AND app_feature_error.status='UNRESOLVED'`,function(err,data)
 	{if (err)
 		console.log(err)
 	else
@@ -88,6 +88,19 @@ module.exports.getAllApplications=function(Callback){
 	})
 	
 }
+
+module.exports.getAppFeature=function(q,Callback){
+	connection.query(`select * from app_feature JOIN features where app_feature.features_id=features.id AND app_id='${q}'`,function(err,data)
+	{
+		if (err)
+		console.log(err)
+	else
+		Callback(err,data)
+
+	})
+	
+}
+
 module.exports.addapp=function(q1,q2,Callback){
 	connection.query(`insert into app_list values('${q1}','${q2}')`,function(err,data)
 	{if (err)
