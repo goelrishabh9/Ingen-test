@@ -78,7 +78,6 @@ module.exports.getUnresolvedErrors=function(q,Callback){
 	})
 	
 }
-	
 module.exports.getAllApplications=function(Callback){
 	connection.query("select * from app",function(err,data)
 	{if (err)
@@ -115,14 +114,46 @@ module.exports.addapp=function(q1,q2,Callback){
 	
 }
 
-module.exports.addError=function(q1,q2,q3,Callback){
-	connection.query(`insert into errors values(NULL,'${q2}','${q3}','${Date.now()}','${q1}',"UNRESOLVED")`,function(err,data)
-	{if (err)
-		console.log(err)
-	else
-		Callback(err,data)
+module.exports.addError=function(q1,q2,q3,q4,Callback){
+	connection.query(`select* from errors where name='${q3}'`,function(err,data)
+	{
+		if(err)
+			console.log(err);
+		else
+			{
+			if(data.length<=0)
+			{
+				connection.query(`insert into errors values (NULL,'${q3}','${q4}','${Date.now()}')`,function(er,data1)
+				{
+					if(err)
+						console.log("errork");
+
+				})
+			connection.query(`select* from errors where name='${q3}'`,function(err,data4)
+			{
+				if(err)
+				{
+					console.log("error")
+				}
+				else data=data4;
+			})						
+
+			}
 			
-		
+			connection.query(`select id from app_feature where app_id='${q1}'AND features_id='${q2}'`,function(error,data2){
+				if(error)
+					console.log(error)
+				else{console.log(data[0]['id']);
+				connection.query(`insert into app_feature_error values (NULL,'${Date.now()}','${data[0]['id']}','${data2[0]['id']}',"UNRESOLVED")`,function(err3,data3){
+					if(err)
+						console.log("error2");
+					else Callback(err3,data3)
+				})
+			}
+			})
+			}
+	
+			
 
 	})
 	

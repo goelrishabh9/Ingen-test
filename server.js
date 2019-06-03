@@ -94,10 +94,11 @@ app.post('/',function(req,res)
 app.post('/adderror',function(req,res)
 {
     //var q1=req.body.error_id;
-    var q2=req.body.error_name;
-    var q3=req.body.desc;
-    var q1=req.body.app_type;
-    con.addError(q1,q2,q3,function(err,result){
+    var q3=req.body.error_name;
+    var q4=req.body.desc;
+    var q1=req.body.app_id;
+    var q2=req.body.feature_id;
+    con.addError(q1,q2,q3,q4,function(err,result){
         res.json({success: 1,
                 result: result
             })})
