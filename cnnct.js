@@ -20,14 +20,26 @@ connection.connect(function(err) {
 });
 module.exports.finderrors=function(q,Callback){
 	connection.query(`select * from app_feature_error JOIN errors on errors.id=app_feature_error.errors_id where app_feature_error.id='${q}'`,function(err,data)
-	{if (err)
+	{
+		if (err)
 		console.log(err)
-	else{
-		//layer2.modify(data,function(data1)
-		//{		
-		//		Callback(err,data1)
-			
-		//})
+	else
+	{
+		Callback(err,data);
+	}
+
+	})
+	
+}
+
+module.exports.updateStatus=function(q,Callback)
+{
+	connection.query(`update errors set status="RESOLVED" where id='${q}'`,function(err,data)
+	{
+		if (err)
+		console.log(err)
+	else
+	{
 		Callback(err,data);
 	}
 
@@ -36,6 +48,28 @@ module.exports.finderrors=function(q,Callback){
 }
 module.exports.getAllErrors=function(Callback){
 	connection.query("select * from errors",function(err,data)
+	{if (err)
+		console.log(err)
+	else
+		Callback(err,data)
+
+	})
+	
+}
+
+module.exports.getResolvedErrors=function(Callback){
+	connection.query("select * from errors where status='RESOLVED'",function(err,data)
+	{if (err)
+		console.log(err)
+	else
+		Callback(err,data)
+
+	})
+	
+}
+
+module.exports.getUnresolvedErrors=function(Callback){
+	connection.query("select * from errors where status='UNRESOLVED'",function(err,data)
 	{if (err)
 		console.log(err)
 	else

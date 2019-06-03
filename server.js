@@ -44,6 +44,30 @@ app.get('/errors',function(req,res)
 
 });
 
+app.get('/resolvederrors',function(req,res)
+{
+    
+    con.getResolvedErrors(function(err,result)
+        {
+            res.json({success: 1,
+                result: result
+        })
+        });
+
+});
+app.get('/unresolvederrors',function(req,res)
+{
+    
+    con.getUnresolvedErrors(function(err,result)
+        {
+            res.json({success: 1,
+                result: result
+        })
+        });
+
+});
+
+
 
 app.post('/',function(req,res)
 {
@@ -53,12 +77,6 @@ app.post('/',function(req,res)
         res.json({success: 1,
                 result: result
             })})
-})
-app.get('/adderror',function(req,res)
-{
-	res.json({success: 1,
-                result: "hi"
-            })
 })
 app.post('/adderror',function(req,res)
 {
@@ -70,6 +88,15 @@ app.post('/adderror',function(req,res)
         res.json({success: 1,
                 result: result
             })})
+})
+app.post('/updatestatus',function(req,res)
+{
+	var q=req.body.error_id;
+	con.updateStatus(q,function(err,result){
+		res.json({success: 1,
+                result: result
+            })
+	})
 })
 var server = app.listen(5000, function () {
     console.log('Server is running..');
