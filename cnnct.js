@@ -67,8 +67,8 @@ module.exports.addapp=function(q1,q2,Callback){
 	
 }
 
-module.exports.adderror=function(q1,q2,q3,Callback){
-	connection.query(`insert into error values('${q1}','${q2}','${q3}')`,function(err,data)
+module.exports.addError=function(q1,q2,q3,Callback){
+	connection.query(`insert into errors values('${q1}','${q2}','${q3}','${Date.now()}')`,function(err,data)
 	{if (err)
 		console.log(err)
 	else
