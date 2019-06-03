@@ -54,7 +54,12 @@ app.post('/',function(req,res)
                 result: result
             })})
 })
-
+app.get('/adderror',function(req,res)
+{
+	res.json({success: 1,
+                result: "hi"
+            })
+})
 app.post('/adderror',function(req,res)
 {
     var q1=req.body.error_id;
