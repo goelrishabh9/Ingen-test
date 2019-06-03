@@ -68,7 +68,7 @@ module.exports.getResolvedErrors=function(q,Callback){
 	
 }
 
-module.exports.getUnresolvedErrors=function(Callback){
+module.exports.getUnresolvedErrors=function(q,Callback){
 	connection.query(`select * from app_feature_error join errors where app_feature_errors.error_id=errors.id AND app_feature_error.app_feature_id='${q}'AND app_feature_error.status='UNRESOLVED'`,function(err,data)
 	{if (err)
 		console.log(err)
