@@ -127,9 +127,16 @@ module.exports.addError=function(q1,q2,q3,q4,Callback){
 				{
 					if(err)
 						console.log("errork");
-					else data=data1[1]['insertId']
 
 				})
+			connection.query(`select* from errors where name='${q3}'`,function(err,data4)
+			{
+				if(err)
+				{
+					console.log("error")
+				}
+				else data=data4;
+			})						
 
 			}
 			
