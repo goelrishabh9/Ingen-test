@@ -58,7 +58,7 @@ module.exports.getAllErrors=function(Callback){
 }
 
 module.exports.getResolvedErrors=function(q,Callback){
-	connection.query(`select app_feature_error.id,app_feature_error.created_at,name,description from app_feature_error inner join errors where app_feature_error.errors_id=errors.id AND app_feature_error.app_feature_id='${q}'AND app_feature_error.status='RESOLVED' ORDER BY app_feature_error.created_at DESC`,function(err,data)
+	connection.query(`select app_feature_error.id,app_feature_error.tester_name,app_feature_error.created_at,name,description from app_feature_error inner join errors where app_feature_error.errors_id=errors.id AND app_feature_error.app_feature_id='${q}'AND app_feature_error.status='RESOLVED' ORDER BY app_feature_error.created_at DESC`,function(err,data)
 	{if (err)
 		console.log(err)
 	else
@@ -69,7 +69,7 @@ module.exports.getResolvedErrors=function(q,Callback){
 }
 
 module.exports.getUnresolvedErrors=function(q,Callback){
-	connection.query(`select app_feature_error.id,app_feature_error.created_at,name,description from app_feature_error inner join errors where app_feature_error.errors_id=errors.id AND app_feature_error.app_feature_id='${q}'AND app_feature_error.status='UNRESOLVED' ORDER BY app_feature_error.created_at DESC`,function(err,data)
+	connection.query(`select app_feature_error.id,app_feature_error.tester_name,app_feature_error.created_at,name,description from app_feature_error inner join errors where app_feature_error.errors_id=errors.id AND app_feature_error.app_feature_id='${q}'AND app_feature_error.status='UNRESOLVED' ORDER BY app_feature_error.created_at DESC`,function(err,data)
 	{if (err)
 		console.log(err)
 	else
@@ -114,7 +114,7 @@ module.exports.addapp=function(q1,q2,Callback){
 	
 }
 
-module.exports.addError=function(q1,q2,q3,q4,Callback){
+module.exports.addError=function(q1,q2,q3,q4,q5,Callback){
 	connection.query(`select* from errors where name='${q3}'`,function(err,data)
 	{
 		if(err)
@@ -144,10 +144,10 @@ module.exports.addError=function(q1,q2,q3,q4,Callback){
 				if(error)
 					console.log(error)
 				else{console.log(data[0]['id']);
-				connection.query(`insert into app_feature_error values (NULL,'${Date.now()}','${data[0]['id']}','${data2[0]['id']}',"UNRESOLVED")`,function(err3,data3){
+				connection.query(`insert into app_feature_error values (NULL,'${Date.now()}','${data[0]['id']}','${data2[0]['id']}','${q5}',"UNRESOLVED")`,function(err3,data3){
 					if(err)
 						console.log("error2");
-					else Callback(err3,data3)
+					else Callback(err3,data3);
 				})
 			}
 			})
