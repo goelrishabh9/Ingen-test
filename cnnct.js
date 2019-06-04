@@ -34,7 +34,7 @@ module.exports.finderrors=function(q,Callback){
 
 module.exports.updateStatus=function(q,Callback)
 {
-	connection.query(`update errors set status="RESOLVED" where id='${q}'`,function(err,data)
+	connection.query(`update app_feature_error set status="RESOLVED" where id='${q}'`,function(err,data)
 	{
 		if (err)
 		console.log(err)
@@ -58,7 +58,7 @@ module.exports.getAllErrors=function(Callback){
 }
 
 module.exports.getResolvedErrors=function(q,Callback){
-	connection.query(`select * from app_feature_error join errors where app_feature_error.errors_id=errors.id AND app_feature_error.app_feature_id='${q}'AND app_feature_error.status='RESOLVED' ORDER BY app_feature_error.created_at DESC`,function(err,data)
+	connection.query(`select app_feature_error.id,app_feature_error.created_at,name,description from app_feature_error inner join errors where app_feature_error.errors_id=errors.id AND app_feature_error.app_feature_id='${q}'AND app_feature_error.status='RESOLVED' ORDER BY app_feature_error.created_at DESC`,function(err,data)
 	{if (err)
 		console.log(err)
 	else
@@ -69,7 +69,7 @@ module.exports.getResolvedErrors=function(q,Callback){
 }
 
 module.exports.getUnresolvedErrors=function(q,Callback){
-	connection.query(`select * from app_feature_error join errors where app_feature_error.errors_id=errors.id AND app_feature_error.app_feature_id='${q}'AND app_feature_error.status='UNRESOLVED' ORDER BY app_feature_error.created_at DESC`,function(err,data)
+	connection.query(`select app_feature_error.id,app_feature_error.created_at,name,description from app_feature_error inner join errors where app_feature_error.errors_id=errors.id AND app_feature_error.app_feature_id='${q}'AND app_feature_error.status='UNRESOLVED' ORDER BY app_feature_error.created_at DESC`,function(err,data)
 	{if (err)
 		console.log(err)
 	else
