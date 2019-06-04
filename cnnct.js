@@ -58,7 +58,7 @@ module.exports.getAllErrors=function(Callback){
 }
 
 module.exports.getResolvedErrors=function(q,Callback){
-	connection.query(`select * from app_feature_error join errors where app_feature_error.errors_id=errors.id AND app_feature_error.app_feature_id='${q}'AND app_feature_error.status='RESOLVED'`,function(err,data)
+	connection.query(`select * from app_feature_error join errors where app_feature_error.errors_id=errors.id AND app_feature_error.app_feature_id='${q}'AND app_feature_error.status='RESOLVED' ORDER BY app_feature_error.created_at DESC`,function(err,data)
 	{if (err)
 		console.log(err)
 	else
@@ -69,7 +69,7 @@ module.exports.getResolvedErrors=function(q,Callback){
 }
 
 module.exports.getUnresolvedErrors=function(q,Callback){
-	connection.query(`select * from app_feature_error join errors where app_feature_error.errors_id=errors.id AND app_feature_error.app_feature_id='${q}'AND app_feature_error.status='UNRESOLVED'`,function(err,data)
+	connection.query(`select * from app_feature_error join errors where app_feature_error.errors_id=errors.id AND app_feature_error.app_feature_id='${q}'AND app_feature_error.status='UNRESOLVED' ORDER BY app_feature_error.created_at DESC`,function(err,data)
 	{if (err)
 		console.log(err)
 	else
@@ -127,16 +127,9 @@ module.exports.addError=function(q1,q2,q3,q4,Callback){
 				{
 					if(err)
 						console.log("errork");
+					else data=data1[1]['insertId']
 
 				})
-			connection.query(`select* from errors where name='${q3}'`,function(err,data4)
-			{
-				if(err)
-				{
-					console.log("error")
-				}
-				else data=data4;
-			})						
 
 			}
 			
