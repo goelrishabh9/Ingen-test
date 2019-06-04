@@ -98,7 +98,7 @@ app.post('/adderror',function(req,res)
     var q4=req.body.desc;
     var q1=req.body.app_id;
     var q2=req.body.feature_id;
-    if(q3!=null)
+    if(q3!="")
     {
     con.addError(q1,q2,q3,q4,function(err,result){
         res.json({success: 1,
