@@ -90,7 +90,7 @@ module.exports.getAllApplications=function(Callback){
 }
 
 module.exports.getAppFeature=function(q,Callback){
-	connection.query(`select * from app_feature JOIN features where app_feature.features_id=features.id AND app_id='${q}'`,function(err,data)
+	connection.query(`select app_feature.id from app_feature JOIN features where app_feature.features_id=features.id AND app_id='${q}'`,function(err,data)
 	{
 		if (err)
 		console.log(err)
