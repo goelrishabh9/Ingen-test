@@ -127,24 +127,17 @@ module.exports.addError=function(q1,q2,q3,q4,q5,Callback){
 				{
 					if(err)
 						console.log("errork");
+					e_id=data1['insertId'];
 
 				})
-			connection.query(`select* from errors where name='${q3}'`,function(err,data4)
-			{
-				if(err)
-				{
-					console.log("error")
-				}
-				else data=data4;
-			})						
-
 			}
+			else e_id=data[0]['id'];
 			
 			connection.query(`select id from app_feature where app_id='${q1}'AND features_id='${q2}'`,function(error,data2){
 				if(error)
 					console.log(error)
-				else{console.log(data[0]['id']);
-				connection.query(`insert into app_feature_error values (NULL,'${Date.now()}','${data[0]['id']}','${data2[0]['id']}','${q5}',"UNRESOLVED")`,function(err3,data3){
+				else{
+				connection.query(`insert into app_feature_error values (NULL,'${Date.now()}','${e_id}','${data2[0]['id']}','${q5}',"UNRESOLVED")`,function(err3,data3){
 					if(err)
 						console.log("error2");
 					else Callback(err3,data3);
@@ -158,5 +151,3 @@ module.exports.addError=function(q1,q2,q3,q4,q5,Callback){
 	})
 	
 }
-
-//connection.end();
