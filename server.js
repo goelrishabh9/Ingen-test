@@ -34,7 +34,7 @@ app.get('/app',function(req,res)
 
 app.get('/appfeature',function(req,res)
 {
-	var q=req.query.app_id;    
+    var q=req.query.app_id;    
     con.getAppFeature(q,function(err,result)
         {
             res.json({success: 1,
@@ -57,8 +57,10 @@ app.get('/errors',function(req,res)
 
 app.get('/resolvederrors',function(req,res)
 {
-   var q=req.query.app_feature_id; 
-    con.getResolvedErrors(q,function(err,result)
+   var q1=req.query.app_id;
+   var q2=req.query.feature_id;
+   console.log(q1,q2);
+    con.getResolvedErrors(q1,q2,function(err,result)
         {
             res.json({success: 1,
                 result: result
@@ -68,10 +70,12 @@ app.get('/resolvederrors',function(req,res)
 });
 app.get('/unresolvederrors',function(req,res)
 {
-    var q=req.query.app_feature_id;
+    
+   var q1=req.query.app_id;
+   var q2=req.query.feature_id;
     
     
-    con.getUnresolvedErrors(q,function(err,result)
+    con.getUnresolvedErrors(q1,q2,function(err,result)
         {
             res.json({success: 1,
                 result: result
@@ -91,6 +95,10 @@ app.post('/',function(req,res)
                 result: result
             })})
 })
+app.get('/pp',function(req,res)
+{
+    con.del();
+})
 app.post('/adderror',function(req,res)
 {
     var q5=req.body.created_by;
@@ -106,17 +114,17 @@ app.post('/adderror',function(req,res)
             })})
 }
 else {console.log("empty input");
-	res.json("empty input")
+    res.json("empty input")
 }
 })
 app.post('/updatestatus',function(req,res)
 {
-	var q=req.body.id;
-	con.updateStatus(q,function(err,result){
-		res.json({success: 1,
+    var q=req.body.id;
+    con.updateStatus(q,function(err,result){
+        res.json({success: 1,
                 result: result
             })
-	})
+    })
 })
 var server = app.listen(5000, function () {
     console.log('Server is running..');

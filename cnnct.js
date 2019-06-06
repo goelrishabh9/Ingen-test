@@ -57,8 +57,8 @@ module.exports.getAllErrors=function(Callback){
 	
 }
 
-module.exports.getResolvedErrors=function(q,Callback){
-	connection.query(`select app_feature_error.id,app_feature_error.tester_name,app_feature_error.created_at,name,description from app_feature_error inner join errors where app_feature_error.errors_id=errors.id AND app_feature_error.app_feature_id='${q}'AND app_feature_error.status='RESOLVED' ORDER BY app_feature_error.created_at DESC`,function(err,data)
+module.exports.getResolvedErrors=function(q1,q2,Callback){
+	connection.query(`select app_feature_error.id,app_feature_error.tester_name,app_feature_error.created_at,name,description from app_feature_error inner join errors where app_feature_error.errors_id=errors.id AND app_feature_error.app_feature_id IN (select id from app_feature where app_id='${q1}' AND features_id='${q2}') AND app_feature_error.status='RESOLVED' ORDER BY app_feature_error.created_at DESC`,function(err,data)
 	{if (err)
 		console.log(err)
 	else
@@ -68,8 +68,8 @@ module.exports.getResolvedErrors=function(q,Callback){
 	
 }
 
-module.exports.getUnresolvedErrors=function(q,Callback){
-	connection.query(`select app_feature_error.id,app_feature_error.tester_name,app_feature_error.created_at,name,description from app_feature_error inner join errors where app_feature_error.errors_id=errors.id AND app_feature_error.app_feature_id='${q}'AND app_feature_error.status='UNRESOLVED' ORDER BY app_feature_error.created_at DESC`,function(err,data)
+module.exports.getUnresolvedErrors=function(q1,q2,Callback){
+	connection.query(`select app_feature_error.id,app_feature_error.tester_name,app_feature_error.created_at,name,description from app_feature_error inner join errors where app_feature_error.errors_id=errors.id AND app_feature_error.app_feature_id=(select id from app_feature where app_id='${q1}' AND features_id='${q2}')AND app_feature_error.status='UNRESOLVED' ORDER BY app_feature_error.created_at DESC`,function(err,data)
 	{if (err)
 		console.log(err)
 	else
@@ -90,7 +90,7 @@ module.exports.getAllApplications=function(Callback){
 }
 
 module.exports.getAppFeature=function(q,Callback){
-	connection.query(`select app_feature.id, features.name from app_feature JOIN features where app_feature.features_id=features.id AND app_id='${q}'`,function(err,data)
+	connection.query(`select * from app_feature JOIN features where app_feature.features_id=features.id AND app_id='${q}'`,function(err,data)
 	{
 		if (err)
 		console.log(err)
